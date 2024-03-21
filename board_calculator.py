@@ -21,6 +21,8 @@ def calculate_boards_needed(cutlist):
         board_collector.append(board)
         for item in board:
             cutlist.remove(item)
+            #This causes an error, if I remove the items from the cutlist, and I jummp back to line 15 to start the loop again, the first item
+            #of the cutlist is removed, while the index jumps to the next, and with that missing out an item.
         boards_needed += 1
 
     return boards_needed, board_collector

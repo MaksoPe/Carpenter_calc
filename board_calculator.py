@@ -12,19 +12,19 @@ def calculate_boards_needed(cutlist):
 
     #Main loop the idea is to take the first item, than loop through the rest of the list, and try
     # to combine them in order to achive as little as possible waste.
-    for index, start_part in enumerate(cutlist):
-        board = [start_part]
-        for part in cutlist[index+1:]:
+    while True:
+        board.append(cutlist[0])
+        for part in cutlist[1:]:
             board.append(part)
             if sum(board) > (raw_material - calculated_waste):
                 board.remove(part)
         board_collector.append(board)
         for item in board:
             cutlist.remove(item)
-            #This causes an error, if I remove the items from the cutlist, and I jummp back to line 15 to start the loop again, the first item
-            #of the cutlist is removed, while the index jumps to the next, and with that missing out an item.
+            board = []
         boards_needed += 1
-
+        if not cutlist:
+            break
     return boards_needed, board_collector
         
 #This comes from the 3D modell / SW

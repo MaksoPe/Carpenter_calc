@@ -1,3 +1,5 @@
+import pprint
+
 def calculate_boards_needed(cutlist):
     cutlist.sort(reverse = True) #Descending order
     raw_material = 600 #5x15 cm boards in 600 cm length
@@ -27,9 +29,26 @@ def calculate_boards_needed(cutlist):
             break
     return boards_needed, board_collector
         
-#This comes from the 3D modell / SW
-#insert here function that takes the cutlist from an excel / txt
-cutlist = [250, 250, 250, 250, 250, 318, 318, 180, 100, 60, 60, 50, 50, 42, 38, 38, 38, 45, 45, 62.5, 62.5, 31.8, 25, 25, 18]
+def load_cutlist_from_file(filename):
+    cutlist = []
+    with open(filename, 'r') as file:
+        for line in file:
+            #Skip emty line (if the line variable is only whitespace than False)
+            if line.strip():
+                #Decimal "," replace to ".", if there is no "," nothing happens.
+                line = line.replace(",",".")
+                cutlist.append(float(line.strip()))
+    return cutlist
+                
 
+#Creating the cutlist
+cutlist = load_cutlist_from_file('board.txt')
+
+#Asking for general data for the output
+
+#Printing out the results
 number_of_boards, boards_divided = calculate_boards_needed(cutlist)
-print("Number of 6-meter boards needed: " + str(number_of_boards) + " pcs. " + "Here is the cutlist:" + str(boards_divided))
+print("Number of 6-meter boards needed: " + str(number_of_boards) + " pcs. ")
+print("Here is the cutlist:")
+pp = pprint.PrettyPrinter(width=100)
+pp.pprint(boards_divided)
